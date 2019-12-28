@@ -2,11 +2,16 @@ const path = require('path')
 const HtmlWebpackPlugin = require('html-webpack-plugin')
 const VueLoaderPlugin = require('vue-loader/lib/plugin')
 
+const vendors = ['vue']
+
 module.exports = {
-  entry: './src/index.js',
+  entry: {
+    vendors,
+    main: './src/index.js'
+  },
   output: {
     path: path.resolve(__dirname, 'dist'),
-    filename: 'bundle.js'
+    filename: '[name].bundle.js'
   },
   module: {
     rules: [
@@ -35,10 +40,22 @@ module.exports = {
     }),
     new VueLoaderPlugin()
   ],
+  optimization: {
+    runtimeChunk: 'single',
+    splitChunks: {
+      cacheGroups: {
+        commons: {
+          test: /vendor/,
+          name: 'vendors',
+          chunks: 'all',
+          enforce: true
+        }
+      }
+    }
+  },
   resolve: {
     extensions: ['.js', '.vue'],
     alias: {
-      vue: 'vue/dist/vue.common',
       '@': path.resolve(__dirname, 'src')
     }
   },
