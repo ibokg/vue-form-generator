@@ -61,13 +61,9 @@ module.exports = {
   },
   devServer: {
     bonjour: false,
-    hot: false,
-    open: false,
+    hot: true,
     inline: true,
     historyApiFallback: true,
-    lazy: false,
-    watchContentBase: true,
-    contentBase: './',
     port: 9000
   }
 }
